@@ -2,7 +2,7 @@ import psycopg2
 
 def add_location(city, planet, capacity):
     db = None
-    cur = None
+    curr = None
 
     if (city == '' or planet == ''):
         return ("The city or plannet cannot be null")
@@ -17,7 +17,7 @@ def add_location(city, planet, capacity):
         curr = db.cursor()
 
         # Insert new location into db
-        curr.execute(f"insert into location values (default, %s, %s, {capacity});",
+        curr.execute(f"insert into locations values (default, %s, %s, {capacity});",
                         [city, planet])
 
         db.commit()
@@ -29,5 +29,5 @@ def add_location(city, planet, capacity):
     finally:
         if db:
             db.close()
-        if cur:
-            cur.close()
+        if curr:
+            curr.close()
