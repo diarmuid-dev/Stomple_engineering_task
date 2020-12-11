@@ -4,12 +4,14 @@ def add_location(city, planet, capacity):
     db = None
     curr = None
 
+    # ensure city and planet are not null
     if (city == '' or planet == ''):
         return ("The city or plannet cannot be null")
 
+    # Make sure capacity is an integer
     try:
         capacity = int(capacity)
-    except exception as e:
+    except Exception as e:
         return(f"Invalid year {capacity}")
 
     try:
@@ -20,6 +22,7 @@ def add_location(city, planet, capacity):
         curr.execute(f"insert into locations values (default, %s, %s, {capacity});",
                         [city, planet])
 
+        # Commit to database
         db.commit()
 
         return (f"""Successfully added the location {city} on planet {planet} with capacity {capacity}""")
