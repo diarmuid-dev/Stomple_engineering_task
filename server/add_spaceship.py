@@ -10,7 +10,7 @@ def add_spaceship(name, model, status, location):
 
     try:
         location = int(location)
-    except exception as e:
+    except Exception as e:
         return(f"Invalid location {location}")
 
     try:
