@@ -6,14 +6,14 @@ def remove_spaceship(ship_id):
     curr = None
 
     if (not isInt(ship_id)):
-        return(f"Invalid ship_id {ship_id}")
+        return(f"(0, Invalid ship_id {ship_id})")
 
     try:
         db = psycopg2.connect("dbname=stomple")
         curr = db.cursor()
 
         if (not shipExists(curr, ship_id)):
-            return f"Spaceship {ship_id} does not exist"
+            return f"(0, Spaceship {ship_id} does not exist)"
 
         # get name of spaceship before it is removed
         curr.execute(f"select name from spaceships where id = {ship_id};")
@@ -24,10 +24,10 @@ def remove_spaceship(ship_id):
 
         db.commit()
 
-        return (f"""Successfully removed the spaceship {name[0][0]}""")
+        return (f"""(1, Successfully removed the spaceship {name[0][0]})""")
 
     except psycopg2.Error as err:
-        return f"Failed to delete: {str(err)}"
+        return f"(0, Failed to delete: {str(err)})"
     finally:
         if db:
             db.close()

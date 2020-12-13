@@ -8,11 +8,11 @@ def travel_ship(ship_id, location_id):
 
 
     if (not isInt(ship_id)):
-        return(f"Invalid ship id {ship_id}")
+        return(f"(0, Invalid ship id {ship_id})")
 
 
     if (not isInt(location_id)):
-        return(f"Invalid ship id {location_id}")
+        return(f"(0, Invalid ship id {location_id})")
 
 
     try:
@@ -21,7 +21,7 @@ def travel_ship(ship_id, location_id):
 
         # Check that the location exists
         if (not locationExists(curr, location_id)):
-            return 'The space port with id ' + str(location_id) + ' does not exist'
+            return '(0, The space port with id ' + str(location_id) + ' does not exist)'
 
         curr.execute(f"""select space_port_capacity, city_name, planet_name 
                             from locations where id = {location_id}""")
@@ -35,7 +35,7 @@ def travel_ship(ship_id, location_id):
         numShips = curr.fetchone()[0]
 
         if (not shipExists(curr, ship_id)):
-            return 'The spaceship with id ' + str(ship_id) + ' does not exist'
+            return '(0, The spaceship with id ' + str(ship_id) + ' does not exist)'
 
         # Ship can only travel if operational, therefore we need to check
         curr.execute(f"""select name, status from spaceships where id = {ship_id}""")
@@ -43,7 +43,8 @@ def travel_ship(ship_id, location_id):
         shipname, status = curr.fetchone()
 
         if (not status == 'operational'):
-            return f'The ship {shipname} has the status {status}'
+            return (f'''(0, The ship {shipname} has the status {status}. 
+                        Status must be operational)''')
 
         # Check that the spaceport at location_id is not at capacity
         if (numShips + 1 <= capacity):
@@ -52,9 +53,10 @@ def travel_ship(ship_id, location_id):
                             set ship_location = {location_id}
                             where id = {ship_id}""")
             db.commit()
-            return 'Successfuly moved ship ' +  shipname +  ' to ' +  city +  ', ' +  planet
+            return ('(1, Successfuly moved ship ' +  shipname +  ' to ' 
+                        +  city +  ', ' +  planet + ')')
         else:
-            return 'The space port at ' +  city +  ', ' +  planet +  ' is at capacity'
+            return '(0, The space port at ' +  city +  ', ' +  planet +  ' is at capacity)'
 
     except psycopg2.Error as err:
         print ("ERROR" + str(err))

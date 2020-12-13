@@ -13,7 +13,7 @@ def remove_location(location_id):
         curr = db.cursor()
 
         if (not locationExists(curr, location_id)):
-            return "Error: this location does not exist"
+            return "(0, Error: this location does not exist)"
 
         # Check to see if there are spaceships at this location. If there are,
         # We cannot delete the location
@@ -23,7 +23,7 @@ def remove_location(location_id):
         name = curr.fetchall()
 
         if (len(name) > 0):
-            return "Error deleting location: There are still spaceShips at this location"
+            return "(0, Error deleting location: There are still spaceShips at this location)"
 
         curr.execute(f"""select city_name
                          from locations
@@ -35,10 +35,10 @@ def remove_location(location_id):
 
         db.commit()
 
-        return (f"""Successfully removed the location {name[0]}""")
+        return (f"""(1, Successfully removed the location {name[0]})""")
 
     except psycopg2.Error as err:
-        return f"Error deleting location;    " + str(err)
+        return f"(0, Error deleting location;    " + str(err) + ')'
     finally:
         if db:
             db.close()
