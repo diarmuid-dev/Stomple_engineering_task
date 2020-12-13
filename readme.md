@@ -81,6 +81,13 @@ Key Points:
 
 ## Example Usages
 
+Creating the database in postgres SQL (db must be named stomple):
+- createdb stomple
+- psql -f db/db.sql stomple
+
+Starting the flask server(must be from directory containing flask_server):
+- python3 flask_server.py {port}
+
 Adding a spaceship:
 - curl -d 'ship_name=Omega&ship_model=Alpha&status=operational&location_id=1' -X POST http://127.0.0.1:{port}/spaceship/add
 
