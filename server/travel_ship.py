@@ -44,6 +44,7 @@ def travel_ship(ship_id, location_id):
             curr.execute(f"""update spaceships
                             set ship_location = {ship_id}
                             where id = {location_id}""")
+            db.commit()
             return 'Successfuly moved ship ' +  shipname +  ' to ' +  city +  ', ' +  planet
         else:
             return 'The space port at ' +  city +  ', ' +  planet +  ' is at capacity'
