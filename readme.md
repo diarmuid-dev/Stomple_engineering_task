@@ -72,10 +72,10 @@ Key Points:
 
 |HTTP Request|Endpoint name|Parameters|Return type|Exception|Description|
 |------------|-------------|----------|-----------|---------|-----------|
-|POST|spaceship/add|(ship_id, ship_name, ship_model, status, location_id)|( is_success, info )| **ERROR** when name, model, or status are null. **ERROR** when location or status is invalid. **ERROR** when ship_id is invalid or already exists| Given a spaceships name, model, status and location add a spaceship to the database|
+|POST|spaceship/add|(ship_id, ship_name, ship_model, status, location_id)|( is_success, info )| **ERROR** when name, model, or status are null. **ERROR** when location or status is invalid. **ERROR** when ship_id is invalid or already exists| Given a spaceships id, name, model, status and location add a spaceship to the database|
 |POST|spaceship/remove|(ship_id)|( is_success, info )| **ERROR** when ship_id is invalid| Given a spaceships ship_id remove a spaceship from the database|
 |POST|spaceship/update|(ship_id, status)|( is_success, info )| **ERROR** when ship_id is invalid or status is invalid| Given a spaceships ship_id and a valid status, update the spaceships status in the database|
-|POST|location/add|(location_id, city_name, planet_name, space_port_capacity)|( is_success, info )| **ERROR** when city_name, planet_name or space_port_capacity are null. **ERROR** when location_id is invalid or already exists| Given a locations space port capacity, city and planet name add it to the database|
+|POST|location/add|(location_id, city_name, planet_name, space_port_capacity)|( is_success, info )| **ERROR** when city_name, planet_name or space_port_capacity are null. **ERROR** when location_id is invalid or already exists| Given a locations id, space port capacity, city and planet name add it to the database|
 |POST|location/remove|(location_id)|( is_success, info )| **ERROR** when location_id is invalid or the location has ships| Given a locations id, remove the location from the database|
 |POST|travel|(ship_id, location_id)|( is_success, info )|**ERROR** when location_id or ship_id are invalid. **ERROR** when the given location is full (space_port_capacity is full). **ERROR** when the ships status is not operational| Given a spaceships id and a locations id, move the spaceship to that location.|
 
