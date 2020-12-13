@@ -72,10 +72,10 @@ Key Points:
 
 |HTTP Request|Endpoint name|Parameters|Return type|Exception|Description|
 |------------|-------------|----------|-----------|---------|-----------|
-|POST|spaceship/add|(ship_name, ship_model, status, location_id)|{ outcome_string }| **ERROR** when name, model, or status are null. **ERROR** when location or status is invalid| Given a spaceships name, model, status and location add a spaceship to the database|
+|POST|spaceship/add|(ship_id, ship_name, ship_model, status, location_id)|{ outcome_string }| **ERROR** when name, model, or status are null. **ERROR** when location or status is invalid| Given a spaceships name, model, status and location add a spaceship to the database|
 |POST|spaceship/remove|(ship_id)|{ outcome_string }| **ERROR** when ship_id is invalid| Given a spaceships ship_id remove a spaceship from the database|
 |POST|spaceship/update|(ship_id, status)|{ outcome_string }| **ERROR** when ship_id is invalid or status is invalid| Given a spaceships ship_id and a valid status, update the spaceships status in the database|
-|POST|location/add|(city_name, planet_name, space_port_capacity)|{ outcome_string }| **ERROR** when city_name, planet_name or space_port_capacity are null| Given a locations space port capacity, city and planet name add it to the database|
+|POST|location/add|(location_id, city_name, planet_name, space_port_capacity)|{ outcome_string }| **ERROR** when city_name, planet_name or space_port_capacity are null| Given a locations space port capacity, city and planet name add it to the database|
 |POST|location/remove|(location_id)|{ outcome_string }| **ERROR** when location_id is invalid| Given a locations id, remove the location from the database|
 |POST|travel|(ship_id, location_id)|{ outcome_string }|**ERROR** when location_id or ship_id are invalid. **ERROR** when the given location is full (space_port_capacity is full)| Given a spaceships id and a locations id, move the spaceship to that location.|
 
@@ -89,7 +89,7 @@ Starting the flask server(must be from directory containing flask_server):
 - python3 flask_server.py {port}
 
 Adding a spaceship:
-- curl -d 'ship_name=Omega&ship_model=Alpha&status=operational&location_id=1' -X POST http://127.0.0.1:{port}/spaceship/add
+- curl -d 'ship_id=1&ship_name=Omega&ship_model=Alpha&status=operational&location_id=1' -X POST http://127.0.0.1:{port}/spaceship/add
 
 Removing a spaceship:
 - curl -d 'ship_id=1' -X POST http://127.0.0.1:{port}/spaceship/remove
@@ -98,7 +98,7 @@ Updating a spaceship:
 - curl -d 'ship_id=1&status=decommissioned' -X POST http://127.0.0.1:{port}/spaceship/update
 
 Adding a location:
-- curl -d 'city_name=paris&planet_name=earth&space_port_capacity=2' -X POST http://127.0.0.1:{port}/location/add
+- curl -d 'location_id=1&city_name=paris&planet_name=earth&space_port_capacity=2' -X POST http://127.0.0.1:{port}/location/add
 
 Removing a location:
 - curl -d 'location_id=1' -X POST http://127.0.0.1:{port}/location/remove
