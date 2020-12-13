@@ -16,6 +16,7 @@ create table spaceships(
     name text not null,
     model text not null,
     status text not null,
+    -- Ships must be at a port at all times
     ship_location integer not null,
 
     foreign key (ship_location) references locations(id),
