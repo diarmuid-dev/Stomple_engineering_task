@@ -53,7 +53,7 @@ Key Points:
 
 - The total participation between spaceships and location is because all ships must be stationed at a hangar.
 - Ships can only be at one location at a time, hence the many to one relation.
-- Constraints on the data are outline below.
+- Constraints on the data are outlined below.
 
 ## Data Types and Constraints
 
