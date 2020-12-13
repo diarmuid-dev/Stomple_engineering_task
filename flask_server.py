@@ -70,10 +70,10 @@ def echo1():
 @APP.route('/spaceship/add', methods=['POST'])
 def add_spaceship_call():
     return dumps(add_spaceship(
-        request.form.get('name'),
-        request.form.get('model'),
+        request.form.get('ship_name'),
+        request.form.get('ship_model'),
         request.form.get('status'),
-        request.form.get('location')
+        request.form.get('location_id')
     )) + str("\n")
 
 @APP.route('/spaceship/remove', methods=['POST'])
@@ -94,7 +94,7 @@ def add_location_call():
     return dumps(add_location(
         request.form.get('city_name'),
         request.form.get('planet_name'),
-        request.form.get('capacity')
+        request.form.get('space_port_capacity')
     )) + str("\n")
 
 @APP.route('/location/remove', methods=['POST'])
