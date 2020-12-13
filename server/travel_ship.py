@@ -1,4 +1,5 @@
 import psycopg2
+from utils import locationExists, shipExists
 
 def travel_ship(ship_id, location_id):
     db = None
@@ -7,33 +8,45 @@ def travel_ship(ship_id, location_id):
     try:
         ship_id = int(ship_id)
     except Exception as e:
-        return(f"Invalid year {ship_id}")
+        return(f"Invalid ship id {ship_id}")
 
     try:
         location_id = int(location_id)
     except Exception as e:
-        return(f"Invalid year {location_id}")
+        return(f"Invalid ship id {location_id}")
 
 
     try:
         db = psycopg2.connect("dbname=stomple")
         curr = db.cursor()
 
-        # Insert new location into db
-        curr.execute(f"""select * from moveship({ship_id},{location_id});""")
+        if (not locationExists(curr, location_id)):
+            return 'The space port with id ' + str(location_id) + ' does not exist'
 
-        
+        curr.execute(f"""select space_port_capacity, city_name, planet_name 
+                            from locations where id = {location_id}""")
 
-        curr.execute(f"""select s.name, l.city_name, l.planet_name 
-                         from spaceships s 
-                         join locations l on l.id = s.ship_location
-                         where id = {ship_id};""")
+        capacity, city, planet = curr.fetchone()
 
-        name, location = curr.fetchall()
+        curr.execute(f"""select count(*) from spaceships 
+                        where ship_location = {location_id}""")
 
-        db.commit()
+        numShips = curr.fetchone()[0]
 
-        return (f"Successfully updated {name[0][0]} to {status}")
+        if (not shipExists(curr, ship_id)):
+            return 'The spaceship with id ' + str(ship_id) + ' does not exist'
+
+        curr.execute(f"""select name from spaceships where id = {ship_id}""")
+
+        shipname = curr.fetchone()[0]
+
+        if (numShips + 1 <= capacity):
+            curr.execute(f"""update spaceships
+                            set ship_location = {ship_id}
+                            where id = {location_id}""")
+            return 'Successfuly moved ship ' +  shipname +  ' to ' +  city +  ', ' +  planet
+        else:
+            return 'The space port at ' +  city +  ', ' +  planet +  ' is at capacity'
 
     except psycopg2.Error as err:
         print ("ERROR" + str(err))
