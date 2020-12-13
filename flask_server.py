@@ -37,13 +37,6 @@ def defaultHandler(err):
 
 APP = Flask(__name__)
 CORS(APP)
-# APP.config.update(
-#     MAIL_SERVER='smtp.gmail.com',
-#     MAIL_PORT=465,
-#     MAIL_USE_SSL=True,
-#     MAIL_USERNAME = 'w15a.gang.slackr@gmail.com',
-#     MAIL_PASSWORD = "Slackr1234"
-# )
 
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
@@ -70,6 +63,7 @@ def echo1():
 @APP.route('/spaceship/add', methods=['POST'])
 def add_spaceship_call():
     return dumps(add_spaceship(
+        request.form.get('ship_id'),
         request.form.get('ship_name'),
         request.form.get('ship_model'),
         request.form.get('status'),
@@ -92,6 +86,7 @@ def update_ship_call():
 @APP.route('/location/add', methods=['POST'])
 def add_location_call():
     return dumps(add_location(
+        request.form.get('location_id'),
         request.form.get('city_name'),
         request.form.get('planet_name'),
         request.form.get('space_port_capacity')

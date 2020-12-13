@@ -1,7 +1,7 @@
 create table locations(
     id serial primary key,
     -- it does not make sense to have two ports at the same city, as we cannot
-    -- differentiate between them in this schema. Hence, the city is unique
+    -- differentiate between (apart from with the id).
     city_name text unique not null,
     planet_name text not null,
     space_port_capacity integer not null,
