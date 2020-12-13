@@ -1,6 +1,7 @@
 import psycopg2
+from utils import shipExists, locationExists
 
-def add_spaceship(name, model, status, location):
+def add_spaceship(ship_id, name, model, status, location):
     db = None
     curr = None
 
@@ -17,16 +18,22 @@ def add_spaceship(name, model, status, location):
         db = psycopg2.connect("dbname=stomple")
         curr = db.cursor()
 
+        if (shipExists(curr, ship_id)):
+            return f'Spaceship with id {ship_id} already exists'
+
+        if (not locationExists(curr, location)):
+            return f'Location with id {location} does not exist'
+
         # Insert new spaceship into db
-        curr.execute(f"insert into spaceships values (default, %s, %s, %s, {location});",
+        curr.execute(f"insert into spaceships values ({ship_id}, %s, %s, %s, {location});",
                         [name, model, status])
 
         db.commit()
 
-        return (f"""Successfully added the spaceship {name}""")
+        return (f"""Successfully added the spaceship {name} with id {ship_id}""")
 
     except psycopg2.Error as err:
-        return "Failed to insert"
+        return "Failed to insert: " + str(err)
     finally:
         if db:
             db.close()

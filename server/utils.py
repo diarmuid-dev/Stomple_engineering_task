@@ -13,3 +13,11 @@ def locationExists(curr, location_id):
         return True
     
     return False
+
+def isInt(num):
+    try:
+        num = int(num)
+    except Exception as e:
+        return False
+
+    return True

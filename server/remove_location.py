@@ -1,13 +1,11 @@
 import psycopg2
-from utils import locationExists
+from utils import locationExists, isInt
 
 def remove_location(location_id):
     db = None
     curr = None
 
-    try:
-        location_id = int(location_id)
-    except Exception as e:
+    if (not isInt(location_id)):
         return(f"Invalid location_id {location_id}")
 
     try:
